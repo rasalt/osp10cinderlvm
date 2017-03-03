@@ -1,0 +1,19 @@
+parameter_defaults:
+  CinderEnableIscsiBackend: false
+  controllerExtraConfig:
+    cinder::config::cinder_config:
+        cinder-vg01/volume_driver:
+            value: cinder.volume.drivers.lvm.LVMVolumeDriver
+        cinder-vg01/volumes_dir:
+            value: /var/lib/cinder/volumes
+        cinder-vg01/iscsi_protocol:
+            value: iscsi
+        cinder-vg01/iscsi_ip_address:
+            value: "%{hiera('tripleo::profile::base::cinder::volume::iscsi::cinder_iscsi_address')}"
+        cinder-vg01/volume_backend_name:
+            value: cinder-vg01
+        cinder-vg01/volume_group:
+            value: cinder-vg01
+        cinder-vg01/iscsi_helper:
+            value: lioadm
+    cinder_user_enabled_backends: ['cinder-vg01']

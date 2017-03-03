@@ -1,0 +1,22 @@
+heat_template_version: 2014-10-16
+ 
+resources:
+  userdata:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: {get_resource: vg_config}
+ 
+  vg_config:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      config: |
+        #!/bin/bash
+        if hostname | grep controller; then
+        sudo pvcreate /dev/sdb
+        sudo vgcreate cinder-vg01 /dev/sdb
+        fi
+ 
+outputs:
+  OS::stack_id:
+    value: {get_resource: userdata}
